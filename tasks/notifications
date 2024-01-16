@@ -9,7 +9,7 @@
 - name: Ensure password file is present
   ansible.builtin.copy:
     dest: /etc/postfix/sasl_passwd
-    content: "smtp.gmail.com {{ email }}:{{ email_password }}"
+    content: "{{ proxmox_smtp.host }} {{ proxmox_smtp.email }}:{{ proxmox_smtp.password }}"
     mode: "0600"
     notify: Restart postfix
 
@@ -29,7 +29,7 @@
   ansible.builtin.blockinfile:
     path: /etc/postfix/main.cf
     block: |
-      relayhost = smtp.gmail.com:587
+      relayhost = {{ proxmox_smtp.host }}:{{ proxmox_smtp.port }}
       smtp_use_tls = yes
       smtp_sasl_auth_enable = yes
       smtp_sasl_security_options =

@@ -1,2 +1,20 @@
 ---
 # vars file for ansible-proxmox
+proxmox_pbs_client_apt_repo: deb http://download.proxmox.com/debian/pbs-client bookworm main
+proxmox_gpg_key: http://download.proxmox.com/debian/proxmox-release-bookworm.gpg
+
+disable_services: true
+enable_pbc: true
+
+proxmox_pbs_client:
+  password: ""
+  fingerprint: ""
+  directories:
+    - file-share.pxar:/media/file-share
+    - lxc-config.pxar:/etc/pve/lxc
+
+proxmox_smtp:
+  email: ""
+  password: ""
+  host: smtp.gmail.com
+  port: 587
