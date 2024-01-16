@@ -1,0 +1,19 @@
+---
+- name: Ensure services are disabled
+  ansible.builtin.service:
+    name: pve-ha-lrm
+    state: stopped
+    enabled: false
+
+- name: Ensure services are disabled
+  ansible.builtin.service:
+    name: pve-ha-crm
+    state: stopped
+    enabled: false
+
+- name: Ensure services are disabled
+  ansible.builtin.service:
+    name: corosync
+    state: stopped
+    enabled: false
+  failed_when: false

@@ -1,0 +1,35 @@
+---
+- name: Ensure proxmox signing key is installed
+  ansible.builtin.apt_key:
+    url: "{{ proxmox_gpg_key }}"
+    state: present
+
+- name: Ensure proxmox repository is in sources list
+  ansible.builtin.apt_repository:
+    repo: "{{ pbs_client_apt_repo }}"
+    state: present
+
+- name: Install Proxmox Backup Client
+  ansible.builtin.package:
+    name:
+      - proxmox-backup-client
+    state: present
+
+- name: Ensure backup is in share group
+  ansible.builtin.user:
+    name: backup
+    groups: "{{ mountuser_name }}"
+    state: present
+
+- name: Copy file backup script is on remote
+  ansible.builtin.template:
+    src: ./files/pbs-proxmox-backup.sh.j2
+    dest: /root/pbs-proxmox-backup.sh
+    mode: "0755"
+
+- name: Ensure file backup cron is present
+  ansible.builtin.cron:
+    name: "run file folder backup"
+    minute: "0"
+    hour: "2,8,17,22"
+    job: "/root/pbs-proxmox-backup.sh"

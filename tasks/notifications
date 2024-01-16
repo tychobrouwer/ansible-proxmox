@@ -1,0 +1,40 @@
+---
+- name: Ensure packages are installed
+  ansible.builtin.apt:
+    name:
+      - libsasl2-modules
+      - mailutils
+    state: present
+
+- name: Ensure password file is present
+  ansible.builtin.copy:
+    dest: /etc/postfix/sasl_passwd
+    content: "smtp.gmail.com {{ email }}:{{ email_password }}"
+    mode: "0600"
+    notify: Restart postfix
+
+- name: Ensure credientials database is present
+  ansible.builtin.command: postmap hash:/etc/postfix/sasl_passwd
+  changed_when: false
+
+- name: Ensure relayhost is commented
+  ansible.builtin.lineinfile:
+    path: /etc/postfix/main.cf
+    firstmatch: true
+    regexp: "^relayhost =$"
+    line: "#relayhost ="
+  notify: Restart postfix
+
+- name: Ensure smtp config is in postfix config
+  ansible.builtin.blockinfile:
+    path: /etc/postfix/main.cf
+    block: |
+      relayhost = smtp.gmail.com:587
+      smtp_use_tls = yes
+      smtp_sasl_auth_enable = yes
+      smtp_sasl_security_options =
+      smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+      smtp_tls_CAfile = /etc/ssl/certs/Entrust_Root_Certification_Authority.pem
+      smtp_tls_session_cache_database = btree:/var/lib/postfix/smtp_tls_session_cache
+      smtp_tls_session_cache_timeout = 3600s
+  notify: Restart postfix

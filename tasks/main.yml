@@ -1,2 +1,37 @@
 ---
 # tasks file for ansible-proxmox
+- name: Update cache if needed (Debian)
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Ensure packages are installed
+  ansible.builtin.apt:
+    name:
+      - neofetch
+      - htop
+      - iotop
+      - ifupdown2
+    state: present
+
+- name: Disable services for HA (SSD lifetime)
+  ansible.builtin.import_tasks: disable-services.yml
+  when: disable_services
+
+- name: Disable subscription warning
+  ansible.builtin.replace:
+    path: /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js
+    regexp: "Ext.Msg.show.*?\n.*?title: gettext..No valid subscription..,"
+    replace: >
+      void({
+                                  title: gettext('No valid subscription'),
+  notify: Restart pveproxy
+
+- name: Enable Proxmox Backup Client
+  ansible.builtin.import_tasks: pbc.yml
+  when: enable_pbc
+
+- name: Disable Proxmox Backup Client
+  ansible.builtin.cron:
+    name: "run file folder backup"
+    state: absent

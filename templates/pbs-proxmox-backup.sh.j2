@@ -1,0 +1,7 @@
+#!/bin/sh
+export PBS_PASSWORD="{{ pbs_password }}"
+export PBS_FINGERPRINT="{{ pbs_fingerprint }}"
+export PBS_LOG="warn"
+export PXAR_LOG="warn"
+
+proxmox-backup-client backup file-share.pxar:/media/file-share lxc-config.pxar:/etc/pve/lxc --repository backup@pbs@192.168.1.108:main

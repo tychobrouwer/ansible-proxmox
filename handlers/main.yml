@@ -1,2 +1,9 @@
 ---
 # handlers file for ansible-proxmox
+- name: Restart postfix
+  ansible.builtin.command: "postfix reload"
+
+- name: Restart pveproxy
+  ansible.builtin.service:
+    name: pveproxy
+    state: restarted
