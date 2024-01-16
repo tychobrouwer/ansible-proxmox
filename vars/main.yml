@@ -3,8 +3,8 @@
 proxmox_pbs_client_apt_repo: deb http://download.proxmox.com/debian/pbs-client bookworm main
 proxmox_gpg_key: http://download.proxmox.com/debian/proxmox-release-bookworm.gpg
 
-disable_services: true
-enable_pbc: true
+enable_ha_services: true
+enable_pbs_client: true
 
 proxmox_pbs_client:
   password: ""

@@ -2,6 +2,7 @@
 # handlers file for ansible-proxmox
 - name: Restart postfix
   ansible.builtin.command: "postfix reload"
+  changed_when: true
 
 - name: Restart pveproxy
   ansible.builtin.service:
