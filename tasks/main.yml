@@ -14,10 +14,6 @@
       - ifupdown2
     state: present
 
-- name: Disable services for HA (SSD lifetime)
-  ansible.builtin.import_tasks: disable-services.yml
-  when: disable_services
-
 - name: Disable subscription warning
   ansible.builtin.replace:
     path: /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js
@@ -26,6 +22,9 @@
       void({
                                   title: gettext('No valid subscription'),
   notify: Restart pveproxy
+
+- name: Disable services for HA (SSD lifetime)
+  ansible.builtin.import_tasks: disable-services.yml
 
 - name: Enable Proxmox Backup Client
   ansible.builtin.import_tasks: pbc.yml
