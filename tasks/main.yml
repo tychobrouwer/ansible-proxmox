@@ -35,3 +35,6 @@
     name: "run file folder backup"
     state: absent
   when: not enable_pbs_client
+
+- name: Enable notfications
+  ansible.builtin.import_tasks: notifications.yml

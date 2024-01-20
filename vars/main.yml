@@ -5,16 +5,3 @@ proxmox_gpg_key: http://download.proxmox.com/debian/proxmox-release-bookworm.gpg
 
 enable_ha_services: true
 enable_pbs_client: true
-
-proxmox_pbs_client:
-  password: ""
-  fingerprint: ""
-  directories:
-    - file-share.pxar:/media/file-share
-    - lxc-config.pxar:/etc/pve/lxc
-
-proxmox_smtp:
-  email: ""
-  password: ""
-  host: smtp.gmail.com
-  port: 587
