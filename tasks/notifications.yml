@@ -11,7 +11,7 @@
     dest: /etc/postfix/sasl_passwd
     content: "{{ proxmox_smtp.host }} {{ proxmox_smtp.email }}:{{ proxmox_smtp.password }}"
     mode: "0600"
-    notify: Restart postfix
+  notify: Restart postfix
 
 - name: Ensure credientials database is present
   ansible.builtin.command: postmap hash:/etc/postfix/sasl_passwd
