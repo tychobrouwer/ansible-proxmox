@@ -8,3 +8,7 @@
   ansible.builtin.service:
     name: pveproxy
     state: restarted
+
+- name: Reinstall proxmox-widget-toolkit
+  ansible.builtin.command: apt --reinstall install proxmox-widget-toolkit
+  changed_when: true
