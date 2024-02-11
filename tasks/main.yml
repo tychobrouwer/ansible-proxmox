@@ -14,15 +14,6 @@
       - ifupdown2
     state: present
 
-- name: Disable subscription warning
-  ansible.builtin.replace:
-    path: /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js
-    regexp: "Ext.Msg.show.*?\n.*?title: gettext..No valid subscription..,"
-    replace: >
-      void({
-                                  title: gettext('No valid subscription'),
-  notify: Restart pveproxy
-
 - name: Set repositories to no-subscription
   ansible.builtin.copy:
     dest: /etc/apt/sources.list
