@@ -38,7 +38,7 @@
     owner: root
     group: root
     mode: 0755
-  register: Reinstall proxmox-widget-toolkit
+  notify: Reinstall proxmox-widget-toolkit
 
 - name: Disable/enable services for HA (SSD lifetime)
   ansible.builtin.import_tasks: disable-services.yml
