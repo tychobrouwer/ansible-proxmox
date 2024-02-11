@@ -17,7 +17,7 @@ Example Playbook
       proxmox_pbs_client:
         password: ""
         fingerprint: ""
-        directories:
+      proxmox_pbs_client_directories:
           - file-share.pxar:/media/file-share
           - lxc-config.pxar:/etc/pve/lxc
 
