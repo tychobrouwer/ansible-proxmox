@@ -28,7 +28,7 @@ Example Playbook
         port: 587
 
       roles:
-         - { role: tychobrouwer.proxmox, proxmox_pbs_repository: backup@pbs@192.168.1.108:main, enable_ha_services: true, enable_pbs: true }
+         - { role: tychobrouwer.proxmox, proxmox_pbs_repository: backup@pbs@192.168.1.108:main, proxmox_enable_ha_services: true, proxmox_enable_pbs_client: true }
 ```
 
 License

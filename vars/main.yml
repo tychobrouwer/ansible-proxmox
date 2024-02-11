@@ -3,5 +3,5 @@
 proxmox_pbs_client_apt_repo: deb http://download.proxmox.com/debian/pbs-client {{ ansible_distribution_release }} main
 proxmox_gpg_key: http://download.proxmox.com/debian/proxmox-release-{{ ansible_distribution_release }}.gpg
 
-enable_ha_services: true
-enable_pbs_client: true
+proxmox_enable_ha_services: false
+proxmox_enable_pbs_client: true

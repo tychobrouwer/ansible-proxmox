@@ -45,13 +45,13 @@
 
 - name: Enable Proxmox Backup Client
   ansible.builtin.import_tasks: pbs-client.yml
-  when: enable_pbs_client
+  when: proxmox_enable_pbs_client
 
 - name: Disable Proxmox Backup Client
   ansible.builtin.cron:
     name: "run file folder backup"
     state: absent
-  when: not enable_pbs_client
+  when: not proxmox_enable_pbs_client
 
 - name: Enable notfications
   ansible.builtin.import_tasks: notifications.yml
