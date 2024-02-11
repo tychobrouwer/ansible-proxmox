@@ -4,4 +4,4 @@ export PBS_FINGERPRINT="{{ proxmox_pbs_client.fingerprint }}"
 export PBS_LOG="warn"
 export PXAR_LOG="warn"
 
-proxmox-backup-client backup {{ proxmox_pbs_client.directories | join(" ") }} --repository {{ proxmox_pbs_repository }}
+proxmox-backup-client backup {{ proxmox_pbs_client_directories | join(" ") }} --repository {{ proxmox_pbs_repository }}
