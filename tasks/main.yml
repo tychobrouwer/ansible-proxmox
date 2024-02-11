@@ -24,7 +24,7 @@
       deb http://download.proxmox.com/debian/pve {{ ansible_distribution_release }} pve-no-subscription
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
 
 - name: Ensure enterprise repository is removed
   ansible.builtin.file:
@@ -37,7 +37,7 @@
     dest: /etc/apt/apt.conf.d/no-nag-script
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
   notify: Reinstall proxmox-widget-toolkit
 
 - name: Disable/enable services for HA (SSD lifetime)
