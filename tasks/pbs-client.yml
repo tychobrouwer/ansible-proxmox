@@ -15,12 +15,6 @@
       - proxmox-backup-client
     state: present
 
-# - name: Ensure backup is in share group
-#   ansible.builtin.user:
-#     name: backup
-#     groups: "{{ mountuser_name }}"
-#     state: present
-
 - name: Copy file backup script is on remote
   ansible.builtin.template:
     src: pbs-proxmox-backup.sh.j2
