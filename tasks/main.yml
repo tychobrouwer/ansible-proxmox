@@ -22,6 +22,9 @@
       deb http://ftp.debian.org/debian {{ ansible_distribution_release }}-updates main contrib
       deb http://security.debian.org/debian-security {{ ansible_distribution_release }}-security main contrib
       deb http://download.proxmox.com/debian/pve {{ ansible_distribution_release }} pve-no-subscription
+    owner: root
+    group: root
+    mode: 0644
 
 - name: Ensure enterprise repository is removed
   ansible.builtin.file:
@@ -30,9 +33,8 @@
 
 - name: Disable subscription nag script
   ansible.builtin.copy:
+    src: no-nag-script
     dest: /etc/apt/apt.conf.d/no-nag-script
-    content: |
-      DPkg::Post-Invoke { "dpkg -V proxmox-widget-toolkit | grep -q '/proxmoxlib\.js$'; if [ \$? -eq 1 ]; then { echo 'Removing subscription nag from UI...'; sed -i '/.*data\.status.*{/{s/\!//;s/active/NoMoreNagging/}' /usr/share/javascript/proxmox-widget-toolkit/proxmoxlib.js; }; fi"; };
     owner: root
     group: root
     mode: 0755
