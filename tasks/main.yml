@@ -27,9 +27,10 @@
     replace: "#deb"
 
 - name: Create community repository
-  ansible.builtin.file:
+  ansible.builtin.copy:
     path: /etc/apt/sources.list.d/pve-no-subscription.list
-    content: "deb http://download.proxmox.com/debian/pve {{ ansible_distribution_release }} pve-no-subscription"
+    content: |
+      deb http://download.proxmox.com/debian/pve {{ ansible_distribution_release }} pve-no-subscription
 
 - name: Ensure enterprise repository is removed
   ansible.builtin.file:
