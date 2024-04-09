@@ -27,5 +27,5 @@
   ansible.builtin.cron:
     name: "run file folder backup"
     minute: "0"
-    hour: "2,8,17,22"
+    hour: "{{ proxmox_backup_hours }}"
     job: "/root/pbs-proxmox-backup.sh"

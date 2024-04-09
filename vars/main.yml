@@ -5,3 +5,4 @@ proxmox_gpg_key: http://download.proxmox.com/debian/proxmox-release-{{ ansible_d
 
 proxmox_enable_ha_services: false
 proxmox_enable_pbs_client: true
+proxmox_backup_hours: "2,8,22"
