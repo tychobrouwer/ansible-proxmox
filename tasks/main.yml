@@ -31,7 +31,7 @@
     dest: /etc/apt/sources.list.d/pve-no-subscription.list
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
     content: |
       deb http://download.proxmox.com/debian/pve {{ ansible_distribution_release }} pve-no-subscription
 
