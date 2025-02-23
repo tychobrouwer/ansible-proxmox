@@ -1,5 +1,5 @@
 ---
-- name: Ensure packages are installed
+- name: Ensure necessary packages are installed
   ansible.builtin.apt:
     name:
       - libsasl2-modules
@@ -13,19 +13,19 @@
     mode: "0600"
   notify: Restart postfix
 
-- name: Ensure credientials database is present
+- name: Ensure credentials database is present
   ansible.builtin.command: postmap hash:/etc/postfix/sasl_passwd
   changed_when: false
 
-- name: Ensure relayhost is commented
+- name: Ensure relayhost is commented in main.cf
   ansible.builtin.lineinfile:
     path: /etc/postfix/main.cf
-    firstmatch: true
-    regexp: "^relayhost =$"
+    regexp: "^relayhost ="
     line: "#relayhost ="
+    state: present
   notify: Restart postfix
 
-- name: Ensure smtp config is in postfix config
+- name: Ensure SMTP configuration is in Postfix config
   ansible.builtin.blockinfile:
     path: /etc/postfix/main.cf
     block: |

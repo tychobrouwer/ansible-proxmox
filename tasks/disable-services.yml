@@ -1,19 +1,11 @@
 ---
-- name: Enable or disable pve-ha-lrm service
-  ansible.builtin.service:
-    name: pve-ha-lrm
-    state: "{{ proxmox_enable_ha_services and 'started' or 'stopped' }}"
+- name: Ensure HA services are enabled or disabled based on configuration
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    state: "{{ 'started' if proxmox_enable_ha_services else 'stopped' }}"
     enabled: "{{ proxmox_enable_ha_services }}"
-
-- name: Enable or disable pve-ha-crm service
-  ansible.builtin.service:
-    name: pve-ha-crm
-    state: "{{ proxmox_enable_ha_services and 'started' or 'stopped' }}"
-    enabled: "{{ proxmox_enable_ha_services }}"
-
-- name: Enable or disable pve-cluster service
-  ansible.builtin.service:
-    name: corosync
-    state: "{{ proxmox_enable_ha_services and 'started' or 'stopped' }}"
-    enabled: "{{ proxmox_enable_ha_services }}"
+  loop:
+    - pve-ha-lrm
+    - pve-ha-crm
+    - corosync
   failed_when: false

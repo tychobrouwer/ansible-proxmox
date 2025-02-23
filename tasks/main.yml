@@ -1,6 +1,6 @@
 ---
 # tasks file for ansible-proxmox
-- name: Update cache if needed (Debian)
+- name: Update APT cache
   ansible.builtin.apt:
     update_cache: true
     cache_valid_time: 3600
@@ -11,20 +11,23 @@
       - neofetch
       - htop
       - iotop
+      - nethogs
       - ifupdown2
     state: present
 
-- name: Comment Cepth repository
+- name: Comment out Ceph repository
   ansible.builtin.replace:
     path: /etc/apt/sources.list.d/ceph.list
     regexp: "^deb"
     replace: "#deb"
+  when: ansible.builtin.stat(path='/etc/apt/sources.list.d/ceph.list').stat.exists
 
-- name: Comment enterprise repository
+- name: Comment out enterprise repository
   ansible.builtin.replace:
     path: /etc/apt/sources.list.d/pve-enterprise.list
     regexp: "^deb"
     replace: "#deb"
+  when: ansible.builtin.stat(path='/etc/apt/sources.list.d/pve-enterprise.list').stat.exists
 
 - name: Create community repository
   ansible.builtin.copy:
@@ -44,18 +47,18 @@
     mode: "0755"
   notify: Reinstall proxmox-widget-toolkit
 
-- name: Disable/enable services for HA (SSD lifetime)
+- name: Import tasks to disable or enable services for HA (SSD lifetime)
   ansible.builtin.import_tasks: disable-services.yml
 
-- name: Enable Proxmox Backup Client
+- name: Enable Proxmox Backup Client if specified
   ansible.builtin.import_tasks: pbs-client.yml
   when: proxmox_enable_pbs_client
 
-- name: Disable Proxmox Backup Client
+- name: Disable Proxmox Backup Client cron job if not enabled
   ansible.builtin.cron:
     name: "run file folder backup"
     state: absent
   when: not proxmox_enable_pbs_client
 
-- name: Enable notfications
+- name: Enable notifications
   ansible.builtin.import_tasks: notifications.yml

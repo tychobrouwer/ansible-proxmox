@@ -5,9 +5,10 @@
   changed_when: true
 
 - name: Restart pveproxy
-  ansible.builtin.service:
+  ansible.builtin.systemd:
     name: pveproxy
     state: restarted
+    daemon_reload: true
 
 - name: Reinstall proxmox-widget-toolkit
   ansible.builtin.command: apt --reinstall install proxmox-widget-toolkit
