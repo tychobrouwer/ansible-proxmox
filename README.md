@@ -12,23 +12,28 @@ Example Playbook
 ----------------
 
 ```yaml
-    - hosts: servers
-      vars:
-      proxmox_pbs_client:
-        password: ""
-        fingerprint: ""
-      proxmox_pbs_client_directories:
-          - file-share.pxar:/media/file-share
-          - lxc-config.pxar:/etc/pve/lxc
+- hosts: servers
+  vars:
+    proxmox_pbs_repository: backup@pbs@10.12.12.108:main
+    proxmox_enable_ha_services: false
+    proxmox_enable_pbs_client: true
+    proxmox_backup_hours: "2,8,22"
 
-      proxmox_smtp:
-        email: ""
-        password: ""
-        host: smtp.gmail.com
-        port: 587
+    proxmox_pbs_client:
+      password: ""
+      fingerprint: ""
+    proxmox_pbs_client_directories:
+        - file-share.pxar:/media/file-share
+        - lxc-config.pxar:/etc/pve/lxc
 
-      roles:
-         - { role: tychobrouwer.proxmox, proxmox_pbs_repository: backup@pbs@10.12.12.108:main, proxmox_enable_ha_services: true, proxmox_enable_pbs_client: true }
+    proxmox_smtp:
+      email: ""
+      password: ""
+      host: smtp.gmail.com
+      port: 587
+
+  roles:
+    - role: tychobrouwer.proxmox
 ```
 
 License
