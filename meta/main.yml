@@ -3,7 +3,6 @@ galaxy_info:
   namespace: tychobrouwer
   author: Tycho Brouwer
   description: Install and configure Proxmox VE
-  version: 1.0.0
 
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
