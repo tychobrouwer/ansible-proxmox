@@ -15,28 +15,24 @@
       - ifupdown2
     state: present
 
-- name: Comment out Ceph repository
+- name: Disable Proxmox Enterprise repository
   ansible.builtin.replace:
-    path: /etc/apt/sources.list.d/ceph.list
-    regexp: "^deb"
-    replace: "#deb"
-  when: ansible.builtin.stat(path='/etc/apt/sources.list.d/ceph.list').stat.exists
+    path: /etc/apt/sources.list.d/pve-enterprise.sources
+    regexp: "^Enabled: true"
+    replace: "Enabled: false"
 
-- name: Comment out enterprise repository
-  ansible.builtin.replace:
-    path: /etc/apt/sources.list.d/pve-enterprise.list
-    regexp: "^deb"
-    replace: "#deb"
-  when: ansible.builtin.stat(path='/etc/apt/sources.list.d/pve-enterprise.list').stat.exists
-
-- name: Create community repository
+- name: Add Proxmox Community repository
   ansible.builtin.copy:
-    dest: /etc/apt/sources.list.d/pve-no-subscription.list
+    dest: /etc/apt/sources.list.d/pve-no-subscription.sources
     owner: root
     group: root
     mode: "0644"
     content: |
-      deb http://download.proxmox.com/debian/pve {{ ansible_distribution_release }} pve-no-subscription
+      Types: deb
+      URIs: http://download.proxmox.com/debian/pve/
+      Suites: trixie
+      Components: pve-no-subscription
+      Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
 
 - name: Disable subscription nag script
   ansible.builtin.copy:
