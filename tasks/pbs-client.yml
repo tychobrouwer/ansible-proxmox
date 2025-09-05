@@ -1,13 +1,16 @@
 ---
-- name: Ensure proxmox signing key is installed
-  ansible.builtin.apt_key:
-    url: "{{ proxmox_gpg_key }}"
-    state: present
-
-- name: Ensure proxmox repository is in sources list
-  ansible.builtin.apt_repository:
-    repo: "{{ proxmox_pbs_client_apt_repo }}"
-    state: present
+- name: Add Proxmox Backup repository
+  ansible.builtin.copy:
+    dest: /etc/apt/sources.list.d/pbs-client.sources
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      Types: deb
+      URIs: http://download.proxmox.com/debian/pbs-client/
+      Suites: trixie
+      Components: main
+      Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
 
 - name: Install Proxmox Backup Client
   ansible.builtin.package:
